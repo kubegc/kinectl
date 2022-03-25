@@ -53,6 +53,8 @@ func delete(*cli.Context) error {
 	err := client.Delete(context.Background(), deleteArgs.Key, deleteArgs.Revision)
 	if err == nil {
 		fmt.Println("success")
+	} else {
+		fmt.Println(err.Error())
 	}
 	return err
 }

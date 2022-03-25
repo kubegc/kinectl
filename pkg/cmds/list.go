@@ -52,6 +52,7 @@ func list(*cli.Context) error {
 
 	values, err := client.List(context.Background(), listArgs.Key, listArgs.Revision)
 	if err != nil {
+		fmt.Println(err.Error())
 		return err
 	}
 

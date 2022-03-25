@@ -44,6 +44,7 @@ func get(*cli.Context) error {
 
 	value, err := client.Get(context.Background(), getArgs.Key)
 	if err != nil {
+		fmt.Println(err.Error())
 		return err
 	}
 

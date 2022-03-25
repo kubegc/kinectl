@@ -53,6 +53,8 @@ func put(*cli.Context) error {
 	err := client.Put(context.Background(), putArgs.Key, []byte(putArgs.Value))
 	if err == nil {
 		fmt.Println("success")
+	} else {
+		fmt.Println(err.Error())
 	}
 	return err
 }

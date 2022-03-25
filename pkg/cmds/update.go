@@ -61,6 +61,8 @@ func update(*cli.Context) error {
 	err := client.Update(context.Background(), updateArgs.Key, updateArgs.Revision, []byte(updateArgs.Value))
 	if err == nil {
 		fmt.Println("success")
+	} else {
+		fmt.Println(err.Error())
 	}
 	return err
 }
