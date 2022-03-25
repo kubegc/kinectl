@@ -57,7 +57,7 @@ func list(*cli.Context) error {
 	}
 
 	for _, value := range values {
-		fmt.Printf("key: %s\ndata: %s\nmodified times: %d\n", string(value.Key), string(value.Data), value.Modified)
+		fmt.Printf("key: %s\ndata: %s\nmodified times: %d\n\n", string(value.Key), string(value.Data), value.Modified)
 	}
 	return nil
 }
