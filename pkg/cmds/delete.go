@@ -28,12 +28,14 @@ func NewDeleteCommand() *cli.Command {
 var DeleteFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
+		Aliases:     []string{"k"},
 		Usage:       "key to locate",
 		Required:    true,
 		Destination: &deleteArgs.Key,
 	},
 	&cli.Int64Flag{
 		Name:        "revision",
+		Aliases:     []string{"r"},
 		Usage:       "revision of store data",
 		Value:       0,
 		Destination: &deleteArgs.Revision,

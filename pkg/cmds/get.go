@@ -27,6 +27,7 @@ func NewGetCommand() *cli.Command {
 var GetFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
+		Aliases:     []string{"k"},
 		Usage:       "key to locate",
 		Required:    true,
 		Destination: &getArgs.Key,

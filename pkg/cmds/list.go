@@ -28,12 +28,14 @@ func NewListCommand() *cli.Command {
 var ListFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
+		Aliases:     []string{"k"},
 		Usage:       "key to locate",
 		Required:    true,
 		Destination: &listArgs.Key,
 	},
 	&cli.IntFlag{
 		Name:        "revision",
+		Aliases:     []string{"r"},
 		Usage:       "revision of store data",
 		Value:       0,
 		Destination: &listArgs.Revision,

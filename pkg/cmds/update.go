@@ -29,18 +29,21 @@ func NewUpdateCommand() *cli.Command {
 var UpdateFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
+		Aliases:     []string{"k"},
 		Usage:       "key to locate",
 		Required:    true,
 		Destination: &updateArgs.Key,
 	},
 	&cli.StringFlag{
 		Name:        "value",
+		Aliases:     []string{"v"},
 		Usage:       "value to store",
 		Required:    true,
 		Destination: &updateArgs.Value,
 	},
 	&cli.Int64Flag{
 		Name:        "revision",
+		Aliases:     []string{"r"},
 		Usage:       "revision of store data",
 		Value:       0,
 		Destination: &updateArgs.Revision,

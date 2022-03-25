@@ -28,12 +28,14 @@ func NewPutCommand() *cli.Command {
 var PutFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
+		Aliases:     []string{"k"},
 		Usage:       "key to locate",
 		Required:    true,
 		Destination: &putArgs.Key,
 	},
 	&cli.StringFlag{
 		Name:        "value",
+		Aliases:     []string{"v"},
 		Usage:       "value to store",
 		Required:    true,
 		Destination: &putArgs.Value,
