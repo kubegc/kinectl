@@ -51,7 +51,7 @@ func put(*cli.Context) error {
 	defer client.Close()
 
 	err := client.Put(context.Background(), putArgs.Key, []byte(putArgs.Value))
-	if err != nil {
+	if err == nil {
 		fmt.Println("success")
 	}
 	return err

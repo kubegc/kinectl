@@ -51,7 +51,7 @@ func delete(*cli.Context) error {
 	defer client.Close()
 
 	err := client.Delete(context.Background(), deleteArgs.Key, deleteArgs.Revision)
-	if err != nil {
+	if err == nil {
 		fmt.Println("success")
 	}
 	return err

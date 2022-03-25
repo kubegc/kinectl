@@ -59,7 +59,7 @@ func update(*cli.Context) error {
 	defer client.Close()
 
 	err := client.Update(context.Background(), updateArgs.Key, updateArgs.Revision, []byte(updateArgs.Value))
-	if err != nil {
+	if err == nil {
 		fmt.Println("success")
 	}
 	return err
