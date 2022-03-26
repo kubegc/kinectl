@@ -29,7 +29,7 @@ var ListFlags = []cli.Flag{
 	&cli.StringFlag{
 		Name:        "key",
 		Aliases:     []string{"k"},
-		Usage:       "key to locate",
+		Usage:       "key prifex as \"/../\" to locate",
 		Required:    true,
 		Destination: &listArgs.Key,
 	},

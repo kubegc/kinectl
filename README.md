@@ -55,61 +55,50 @@ server address: 192.168.154.90:2379
 
   * version
     ```shell
-    $ ./kinectl --cacert=/root/ca.pem --cert=/root/client.pem --key=/root/client-key.pem --endpoints="192.168.154.90:2379" version
-    {"etcdserver":"3.5.0","etcdcluster":"3.5.0"}
-    $
+    ./kinectl --cacert=/root/ca.pem --cert=/root/client.pem --key=/root/client-key.pem --endpoints="192.168.154.90:2379" version
     ```
 
   * create
     
     add a key-value store
     ```shell
-    $ ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" create --key="/test" --value="hello world"
-    success
-    $
+    ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" create --key="/test" --value="hello world"
     ```
 
   * list
 
     list datas with key="/..."
     ```shell
-    $ ./kinectl --cacert=/root/ca.pem --cert=/root/client.pem --key=/root/client-key.pem --endpoints="192.168.154.90:2379" list --key="/"
-    key: /registry/health
-    data: {"health":"true"}
-    modified times: 2
-
-    key: /test
-    data: hello world
-    modified times: 11
-
-    $
+    ./kinectl --cacert=/root/ca.pem --cert=/root/client.pem --key=/root/client-key.pem --endpoints="192.168.154.90:2379" list --key="/"
     ```
   
   * get
 
     get value by key
     ```shell
-    $ ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" get --key="/test"
-    key: /test
-    data: new value
-    modified times: 11
-    $
+    ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" get --key="/test"
     ```
 
   * put
 
     modified value
     ```shell
-    $ ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" put --key="/test" --value="new value"
+    ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" put --key="/test" --value="new value"
     success
-    $ ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" get --key="/test"
-    key: /test
-    data: new value
-    modified times: 12
-    $
+
+    # if key="/test" is not exist, it will give an error. it can automaticly change to run create by "-f" or "--force=true"
     ```
-  * upgrade
+  * update
 
     ```shell
-    $ ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" put --key="/test" --value="new value update"
+    # assume current revision(modified times) of key="/test" is 18, global is 25
+    ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" update --key="/test" --value="new value update" --revision=18
+
+    # after this command, it will be 26
     ```
+
+  * delete
+
+  ```shell
+  ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" delete --key="/test"
+  ```
