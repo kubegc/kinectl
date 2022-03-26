@@ -101,8 +101,9 @@ func (c *ClientK) Put(ctx context.Context, key string, value []byte) error {
 	val, err := c.Get(ctx, key)
 	if err != nil {
 		if err == rpctypes.ErrKeyNotFound {
-			fmt.Println("---------")
+
 		}
+		fmt.Printf("%T", err)
 		return err
 	}
 	if val.Modified == 0 {
