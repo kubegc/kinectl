@@ -2,8 +2,12 @@ package client
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/k3s-io/kine/pkg/endpoint"
@@ -27,11 +31,13 @@ type Client interface {
 	Create(ctx context.Context, key string, value []byte) error
 	Update(ctx context.Context, key string, revision int64, value []byte) error
 	Delete(ctx context.Context, key string, revision int64) error
+	Version() (string, error)
 	Close() error
 }
 
 type ClientK struct {
-	c *clientv3.Client
+	c      *clientv3.Client
+	config *endpoint.ETCDConfig
 }
 
 func New(config endpoint.ETCDConfig) (Client, error) {
@@ -50,7 +56,8 @@ func New(config endpoint.ETCDConfig) (Client, error) {
 	}
 
 	return &ClientK{
-		c: c,
+		c:      c,
+		config: &config,
 	}, nil
 }
 
@@ -146,4 +153,47 @@ func (c *ClientK) Delete(ctx context.Context, key string, revision int64) error 
 
 func (c *ClientK) Close() error {
 	return c.c.Close()
+}
+
+func (c *ClientK) Version() (string, error) {
+	// pool := x509.NewCertPool()
+	// caCrt, err := ioutil.ReadFile(c.config.TLSConfig.CAFile)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// pool.AppendCertsFromPEM(caCrt)
+
+	clientCrt, err := tls.LoadX509KeyPair(c.config.TLSConfig.CertFile, c.config.TLSConfig.KeyFile)
+	if err != nil {
+		return "", err
+	}
+	tr := &http.Transport{
+		//
+		TLSClientConfig: &tls.Config{
+			//RootCAs:            pool,		// disable verify server cert
+			InsecureSkipVerify: true,
+			Certificates: []tls.Certificate{
+				clientCrt,
+			},
+		},
+	}
+	client := &http.Client{Transport: tr}
+	resp, err := client.Get(getHttpsUrl(c.config.Endpoints))
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(body), nil
+}
+
+func getHttpsUrl(endpoints []string) string {
+	parts := strings.SplitN(endpoints[0], "://", 2)
+	if len(parts) > 1 {
+		return "https://" + parts[1]
+	}
+	return "https://" + parts[0]
 }
