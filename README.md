@@ -102,3 +102,6 @@ server address: 192.168.154.90:2379
     ```shell
     ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" delete --key="/test"
     ```
+
+## About Us
+   We are not developers of the [Kine](https://github.com/k3s-io/kine) project. We just notice that `etcdctl` can not be used directly to operate `kine` or it would raise an error. Curl is also not a valid tool at this time(03/26/2022) because it only provides good support for GRPC.
