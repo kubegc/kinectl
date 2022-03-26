@@ -50,7 +50,7 @@ func NewApp() *cli.App {
 		},
 		&cli.StringFlag{
 			Name:        "endpoints",
-			EnvVars:     []string{"KINECTL_LEADELECT"},
+			EnvVars:     []string{"KINECTL_ENDPOINTS"},
 			Usage:       "kine database endpoint, like \"www.example1.com:2379,www.example2.com:2379\"",
 			Destination: &Config.Endpoints,
 		},
