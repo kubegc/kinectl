@@ -190,10 +190,10 @@ func (c *ClientK) Version() (string, error) {
 	return string(body), nil
 }
 
-func getHttpsUrl(endpoints []string) string {
+func getVersionUrl(endpoints []string) string {
 	parts := strings.SplitN(endpoints[0], "://", 2)
 	if len(parts) > 1 {
-		return "https://" + parts[1]
+		return "https://" + parts[1] + "/version"
 	}
-	return "https://" + parts[0]
+	return "https://" + parts[0] + "/version"
 }
