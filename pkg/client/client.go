@@ -98,11 +98,13 @@ func (c *ClientK) Get(ctx context.Context, key string) (Value, error) {
 
 func (c *ClientK) Put(ctx context.Context, key string, value []byte, force bool) error {
 	val, err := c.Get(ctx, key)
-	if err != nil && err != ErrNotFound {
+	if err != nil {
+		if force && err == ErrNotFound {
+			return c.Create(ctx, key, value)
+		}
 		return err
 	}
-
-	if val.Modified == 0 || force {
+	if val.Modified == 0 {
 		return c.Create(ctx, key, value)
 	}
 	return c.Update(ctx, key, val.Modified, value)
