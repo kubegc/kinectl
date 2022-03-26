@@ -45,16 +45,13 @@ var PutFlags = []cli.Flag{
 func put(*cli.Context) error {
 	client, err_init := Config.Client()
 	if err_init != nil {
-		fmt.Println("fail to init client.")
-		return err_init
+		return fmt.Errorf("fail to init client: %s", err_init.Error())
 	}
 	defer client.Close()
 
 	err := client.Put(context.Background(), putArgs.Key, []byte(putArgs.Value))
 	if err == nil {
 		fmt.Println("success")
-	} else {
-		fmt.Println(err.Error())
 	}
 	return err
 }

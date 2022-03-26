@@ -37,14 +37,12 @@ var GetFlags = []cli.Flag{
 func get(*cli.Context) error {
 	client, err_init := Config.Client()
 	if err_init != nil {
-		fmt.Println("fail to init client.")
-		return err_init
+		return fmt.Errorf("fail to init client: %s", err_init.Error())
 	}
 	defer client.Close()
 
 	value, err := client.Get(context.Background(), getArgs.Key)
 	if err != nil {
-		fmt.Println(err.Error())
 		return err
 	}
 

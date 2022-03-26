@@ -17,7 +17,7 @@ type Value struct {
 }
 
 var (
-	ErrNotFound = errors.New("etcdwrapper: key not found")
+	ErrNotFound = errors.New("key not found")
 )
 
 type Client interface {

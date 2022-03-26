@@ -45,16 +45,13 @@ var DeleteFlags = []cli.Flag{
 func delete(*cli.Context) error {
 	client, err_init := Config.Client()
 	if err_init != nil {
-		fmt.Println("fail to init client.")
-		return err_init
+		return fmt.Errorf("fail to init client: %s", err_init.Error())
 	}
 	defer client.Close()
 
 	err := client.Delete(context.Background(), deleteArgs.Key, deleteArgs.Revision)
 	if err == nil {
 		fmt.Println("success")
-	} else {
-		fmt.Println(err.Error())
 	}
 	return err
 }

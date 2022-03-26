@@ -45,16 +45,13 @@ var CreateFlags = []cli.Flag{
 func create(*cli.Context) error {
 	client, err_init := Config.Client()
 	if err_init != nil {
-		fmt.Println("fail to init client.")
-		return err_init
+		return fmt.Errorf("fail to init client: %s", err_init.Error())
 	}
 	defer client.Close()
 
 	err := client.Create(context.Background(), createArgs.Key, []byte(createArgs.Value))
 	if err == nil {
 		fmt.Println("success")
-	} else {
-		fmt.Println(err.Error())
 	}
 	return err
 }
