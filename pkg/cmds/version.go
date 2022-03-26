@@ -10,7 +10,7 @@ import (
 func NewVersionCommand() *cli.Command {
 	return &cli.Command{
 		Name:      "version",
-		Usage:     "update options",
+		Usage:     "view the version of Kine",
 		UsageText: myapp.AppName + " [global options] version",
 		Action: func(c *cli.Context) error {
 			client, err_init := Config.Client()
