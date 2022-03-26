@@ -17,6 +17,7 @@ func main() {
 		cmds.NewUpdateCommand(),
 		cmds.NewGetCommand(),
 		cmds.NewListCommand(),
+		cmds.NewVersionCommand(),
 	}
 
 	if err := app.Run(os.Args); err != nil {
