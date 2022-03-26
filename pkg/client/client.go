@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/k3s-io/kine/pkg/endpoint"
+	"go.etcd.io/etcd/api/v3/v3rpc/rpctypes"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
@@ -99,6 +100,9 @@ func (c *ClientK) Get(ctx context.Context, key string) (Value, error) {
 func (c *ClientK) Put(ctx context.Context, key string, value []byte) error {
 	val, err := c.Get(ctx, key)
 	if err != nil {
+		if err == rpctypes.ErrKeyNotFound {
+			fmt.Println("---------")
+		}
 		return err
 	}
 	if val.Modified == 0 {
