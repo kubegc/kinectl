@@ -42,7 +42,8 @@ server address: 192.168.154.90:2379
     export KINECTL_CACERT="/root/ca.pem"
     export KINECTL_CERT="/root/client.pem"
     export KINECTL_KEY="/root/client-key.pem"
-    export KINECTL_LEADELECT="192.168.154.90:2379"
+    export KINECTL_LEADELECT=false
+    export KINECTL_ENDPOINTS="192.168.154.90:2379"
     ./kinectl [command] [args]
 
     # it is ok to mix these ways, but Command line arguments will be given higher priority.
