@@ -49,7 +49,7 @@ func create(*cli.Context) error {
 	}
 	defer client.Close()
 
-	err := client.Create(context.Background(), createArgs.Key, []byte(createArgs.Value))
+	err := client.Create(context.TODO(), createArgs.Key, []byte(createArgs.Value))
 	if err == nil {
 		fmt.Println("success")
 	}

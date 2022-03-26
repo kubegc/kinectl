@@ -11,6 +11,7 @@ import (
 type PutArgs struct {
 	Key   string
 	Value string
+	Force bool
 }
 
 var putArgs PutArgs
@@ -40,6 +41,13 @@ var PutFlags = []cli.Flag{
 		Required:    true,
 		Destination: &putArgs.Value,
 	},
+	&cli.BoolFlag{
+		Name:        "force",
+		Aliases:     []string{"f"},
+		Usage:       "if value is not exist, create one",
+		Value:       false,
+		Destination: &putArgs.Force,
+	},
 }
 
 func put(*cli.Context) error {
@@ -49,7 +57,7 @@ func put(*cli.Context) error {
 	}
 	defer client.Close()
 
-	err := client.Put(context.Background(), putArgs.Key, []byte(putArgs.Value))
+	err := client.Put(context.TODO(), putArgs.Key, []byte(putArgs.Value), putArgs.Force)
 	if err == nil {
 		fmt.Println("success")
 	}

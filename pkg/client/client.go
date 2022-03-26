@@ -11,7 +11,6 @@ import (
 	"time"
 
 	"github.com/k3s-io/kine/pkg/endpoint"
-	"go.etcd.io/etcd/api/v3/v3rpc/rpctypes"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
@@ -26,9 +25,9 @@ var (
 )
 
 type Client interface {
-	List(ctx context.Context, key string, rev int) ([]Value, error)
+	List(ctx context.Context, key string) ([]Value, error)
 	Get(ctx context.Context, key string) (Value, error)
-	Put(ctx context.Context, key string, value []byte) error
+	Put(ctx context.Context, key string, value []byte, force bool) error
 	Create(ctx context.Context, key string, value []byte) error
 	Update(ctx context.Context, key string, revision int64, value []byte) error
 	Delete(ctx context.Context, key string, revision int64) error
@@ -62,8 +61,8 @@ func New(config endpoint.ETCDConfig) (Client, error) {
 	}, nil
 }
 
-func (c *ClientK) List(ctx context.Context, key string, rev int) ([]Value, error) {
-	resp, err := c.c.Get(ctx, key, clientv3.WithPrefix(), clientv3.WithRev(int64(rev)))
+func (c *ClientK) List(ctx context.Context, key string) ([]Value, error) {
+	resp, err := c.c.Get(ctx, key, clientv3.WithPrefix())
 	if err != nil {
 		return nil, err
 	}
@@ -97,16 +96,13 @@ func (c *ClientK) Get(ctx context.Context, key string) (Value, error) {
 	return Value{}, ErrNotFound
 }
 
-func (c *ClientK) Put(ctx context.Context, key string, value []byte) error {
+func (c *ClientK) Put(ctx context.Context, key string, value []byte, force bool) error {
 	val, err := c.Get(ctx, key)
-	if err != nil {
-		if err == rpctypes.ErrKeyNotFound {
-
-		}
-		fmt.Printf("%T", err)
+	if err != nil && err != ErrNotFound {
 		return err
 	}
-	if val.Modified == 0 {
+
+	if val.Modified == 0 || force {
 		return c.Create(ctx, key, value)
 	}
 	return c.Update(ctx, key, val.Modified, value)

@@ -41,7 +41,7 @@ func get(*cli.Context) error {
 	}
 	defer client.Close()
 
-	value, err := client.Get(context.Background(), getArgs.Key)
+	value, err := client.Get(context.TODO(), getArgs.Key)
 	if err != nil {
 		return err
 	}

@@ -45,7 +45,7 @@ var UpdateFlags = []cli.Flag{
 		Name:        "revision",
 		Aliases:     []string{"r"},
 		Usage:       "revision of store data",
-		Value:       0,
+		Required:    true,
 		Destination: &updateArgs.Revision,
 	},
 }
@@ -57,7 +57,7 @@ func update(*cli.Context) error {
 	}
 	defer client.Close()
 
-	err := client.Update(context.Background(), updateArgs.Key, updateArgs.Revision, []byte(updateArgs.Value))
+	err := client.Update(context.TODO(), updateArgs.Key, updateArgs.Revision, []byte(updateArgs.Value))
 	if err == nil {
 		fmt.Println("success")
 	}

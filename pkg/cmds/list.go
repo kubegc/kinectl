@@ -9,8 +9,8 @@ import (
 )
 
 type ListArgs struct {
-	Key      string
-	Revision int
+	Key string
+	//Revision int
 }
 
 var listArgs ListArgs
@@ -33,13 +33,13 @@ var ListFlags = []cli.Flag{
 		Required:    true,
 		Destination: &listArgs.Key,
 	},
-	&cli.IntFlag{
-		Name:        "revision",
-		Aliases:     []string{"r"},
-		Usage:       "revision of store data",
-		Value:       0,
-		Destination: &listArgs.Revision,
-	},
+	// &cli.IntFlag{
+	// 	Name:        "revision",
+	// 	Aliases:     []string{"r"},
+	// 	Usage:       "revision of store data",
+	// 	Value:       0,
+	// 	Destination: &listArgs.Revision,
+	// },
 }
 
 func list(*cli.Context) error {
@@ -49,7 +49,7 @@ func list(*cli.Context) error {
 	}
 	defer client.Close()
 
-	values, err := client.List(context.Background(), listArgs.Key, listArgs.Revision)
+	values, err := client.List(context.TODO(), listArgs.Key)
 	if err != nil {
 		return err
 	}
