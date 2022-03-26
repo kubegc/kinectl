@@ -99,6 +99,6 @@ server address: 192.168.154.90:2379
 
   * delete
 
-  ```shell
-  ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" delete --key="/test"
-  ```
+    ```shell
+    ./kinectl --cacert=ca.pem --cert=client.pem --key=client-key.pem --endpoints="192.168.154.90:2379" delete --key="/test"
+    ```
