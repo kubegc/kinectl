@@ -178,7 +178,7 @@ func (c *ClientK) Version() (string, error) {
 		},
 	}
 	client := &http.Client{Transport: tr}
-	resp, err := client.Get(getHttpsUrl(c.config.Endpoints))
+	resp, err := client.Get(getVersionUrl(c.config.Endpoints))
 	if err != nil {
 		return "", err
 	}
